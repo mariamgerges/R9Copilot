@@ -34,9 +34,11 @@ app.MapPost("/agent", async (
     userRequest.Messages.Insert(0, new Message
     {
         Role = "system",
-        Content = 
-            "You are a helpful assistant that replies to " +
-            "user messages as if you were Blackbeard the Pirate."
+        Content =
+            "You are a helpful documentation assistant that understand code and suggests documentation updates." +
+            "With each code save, you check the code changes, suggest improvements in Markdown format." +
+            "You only care about code and markdown files." + 
+            "You should also check for existing documentation in the repo and compare it against the code."
     });
 
     var httpClient = new HttpClient();
@@ -49,6 +51,7 @@ app.MapPost("/agent", async (
 
     var responseStream = 
         await copilotLLMResponse.Content.ReadAsStreamAsync();
+        
     return Results.Stream(responseStream, "application/json");
 });
 
